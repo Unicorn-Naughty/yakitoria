@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rolls and Ricks</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/featstyles.css" />
+    <link rel="stylesheet" href="css/cartpage.css" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="header__cartpage-inner">
+          <div class="header__box-logo">
+            <a href="mainlist.html">
+              <img
+                class="header__logo-img"
+                src="pics/icons/smlicon.png"
+                alt="logo"
+              />
+            </a>
+          </div>
+          <div class="breadcrumbs-cartpage">
+            <ul class="breadcrumbs__list">
+              <li class="breadcrumbs__item breadcrumbs__item--active">
+                <span class="breadcrumbs__item-stage">1</span>
+                <p class="breadcrumbs__item-text">Корзина</p>
+              </li>
+              <li class="breadcrumbs__item">
+                <span class="breadcrumbs__item-stage">2</span>
+                <p class="breadcrumbs__item-text">Оформление заказа</p>
+              </li>
+              <li class="breadcrumbs__item">
+                <span class="breadcrumbs__item-stage">3</span>
+                <p class="breadcrumbs__item-text">Заказ принят</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main cartpage">
+      <div class="container">
+        <h2 class="main__title cartpage__main-title">Корзина</h2>
+        <div class="cartpage__inner">
+          <div class="container__cartpage">
+            <div class="cartpage__items"></div>
+            <div class="cartpage__recommend-items">
+              <h4 class="cartpage__recommend-title">Рекомендуем к заказу</h4>
+              <div class="cartpage__recommend-items-box"></div>
+            </div>
+            <div class="cartpage__additional-items additional-items">
+              <ul class="additional__list"></ul>
+            </div>
+            <div class="cartpage__totalprice">
+              <div class="cartpage__totalprice-box">
+                <p class="cartpage__sum">Сумма вашего заказа: 620 ₽</p>
+                <span class="cartpage__totalprice-info"
+                  >Минимальная сумма заказа зависит от адреса доставки.</span
+                >
+              </div>
+            </div>
+            <div class="cartpage__navigation">
+              <a class="back-to-menu" href="mainlist.html"> <--- Вернуться в меню</a>
+              <div class="get-order">
+                <button class="promo">Есть промокод</button>
+                <a class="get-order-next-page" href="#">Оформить заказ</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__inner">
+          <ul class="footer__inner-list">
+            <li class="footer__inner-item">
+              <a class="footer__inner-phone" href="tel:+73912904050"
+                >+7 (391) 290 -40-50</a
+              >
+              <p class="footer__inner-text">
+                Работаем 12:00-23:00 <br />
+                Доставка ежедневно с 12:00 до 23:40
+              </p>
+              <p class="footer__inner-text">Бонусная карта в вашем телефоне</p>
+              <div class="footer__inner-applinks">
+                <a class="footer__inner-app" href="#">
+                  <img
+                    class="footer__inner-appimg"
+                    src="pics/icons/gg.png"
+                    alt="app-img"
+                  />
+                </a>
+                <a class="footer__inner-app" href="#">
+                  <img
+                    class="footer__inner-appimg"
+                    src="pics/icons/ap.png"
+                    alt="app-img"
+                  />
+                </a>
+              </div>
+            </li>
+            <li class="footer__inner-item">
+              <a class="footer__page-links" href="#">Акции</a>
+              <a class="footer__page-links" href="#">Доставка и оплата</a>
+              <a class="footer__page-links" href="#">Контакты</a>
+              <a class="footer__page-links" href="#">Зоны доставки</a>
+            </li>
+            <li class="footer__inner-item">
+              <a class="footer__page-links" href="#">Правовая информация</a>
+              <a class="footer__page-links" href="#">Бонусная программа</a>
+              <a class="footer__page-links" href="#">Работа в Bellini</a>
+            </li>
+            <li class="footer__inner-item">
+              <div class="footer__info">
+                <a class="footer__info-text" href="#">
+                  Bellini gastronomic ecosystem
+                  <span class="footer__info-right">© 2024</span>
+                </a>
+                <a class="footer__info-soclink" href="#">VK</a>
+              </div>
+              <p class="footer__inner-text">ООО «Асами», ИНН 2465290698</p>
+              <p class="footer__inner-text">
+                На сайте представлен предлагаемый вариант <br />
+                сервировки/блюда.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="js/cartpage/cartpage.js"></script>
+  </body>
+</html>
