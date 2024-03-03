@@ -38,12 +38,15 @@ document.querySelectorAll(".main__item-btn").forEach((btn) => {
     console.log(cart);
   });
 });
+
 function addedMess(productId) {
   cart.forEach((cartItem) => {
     const x = document.querySelectorAll(`.quanity-check-${productId}`);
     x.forEach((elem) => {
-      elem.style.opacity = 1;
-      elem.innerHTML = cartItem.quantity;
+      if (cartItem.productId === productId) {
+        elem.style.opacity = 1;
+        elem.innerHTML = cartItem.quantity;
+      }
     });
   });
 }

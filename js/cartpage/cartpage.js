@@ -2,8 +2,8 @@ import { cart, saveToLocal, removeFromCart } from "../data/cart.js";
 import { products, getProduct } from "../data/products.js";
 import { additonalprod } from "../data/cartpagedata/addtional.js";
 import { recprod } from "../data/cartpagedata/recprod.js";
-let cartpageHTML = "";
 
+let cartpageHTML = "";
 cart.forEach((cartItem) => {
   const { productId } = cartItem;
   let matchProd;
@@ -24,7 +24,7 @@ cart.forEach((cartItem) => {
                 </div>
 
                 <div class="counter">
-                  <button class="btn-minus">-</button>
+                  <button class="btn-minus" data-product-id="${matchProd.id}" >-</button>
                   <input
                     class="counter__input data-product-id-${productId}"
                     type="text"
@@ -63,7 +63,7 @@ recprod.forEach((recprod) => {
                     ${recprod.name}
                   </p>
                   <div class="counter">
-                    <button class="btn-minus">-</button>
+                    <button class="btn-minus" data-product-id="${recprod.id}">-</button>
                     <input
                       class="counter__input  data-product-id-${recprod.id}"
                       type="text"
@@ -90,14 +90,14 @@ additonalprod.forEach((addItem) => {
                   />
                   <p class="additional__item-text">${addItem.name}</p>
                   <div class="counter">
-                    <button class="btn-minus">-</button>
+                    <button class="btn-minus" data-product-id="${addItem.id}"  >-</button>
                     <input
-                      class="counter__input"
+                      class="counter__input data-product-id-${addItem.id}"
                       type="text"
                       value="0"
                       readonly
                     />
-                    <button class="btn-plus " >+</button>
+                    <button class="btn-plus btn-plus-add"  data-product-id="${addItem.id}" >+</button>
                   </div>
                   <p class="additional__item-subtext">Бесплатно</p>
                 </li>
@@ -142,17 +142,78 @@ document.querySelectorAll(".btn-plus").forEach((btn) => {
           x.value = cartItem.quantity;
         }
       });
+      updateTotalCost();
+    }
+    if (checkClick.classList.contains("btn-plus-add")) {
+      const { productId } = btn.dataset;
+      additonalprod.forEach((addItem) => {
+        if (addItem.id === productId) {
+          let matchProdObj;
+          cart.forEach((cartItem) => {
+            if (productId === cartItem.productId) {
+              matchProdObj = cartItem;
+            }
+          });
+          if (matchProdObj) {
+            matchProdObj.quantity += 1;
+            matchProdObj.cost += addItem.cost;
+          } else {
+            cart.push({
+              quantity: 1,
+              cost: Number(`${addItem.cost}`),
+              productId: `${addItem.id}`,
+            });
+          }
+        }
+      });
+      cart.forEach((cartItem) => {
+        if (cartItem.productId === productId) {
+          let x = document.querySelector(`.data-product-id-${productId}`);
+          x.value = cartItem.quantity;
+        }
+      });
+      updateTotalCost();
     }
     console.log(cart);
   });
 });
 
 function incr1(productId) {
+  let matchProd;
+  products.forEach((product) => {
+    if (product.id === productId) {
+      matchProd = product;
+    }
+  });
   cart.forEach((cartItem) => {
     if (cartItem.productId === productId) {
       cartItem.quantity += 1;
+      cartItem.cost += matchProd.cost;
       let x = document.querySelector(`.data-product-id-${productId}`);
       x.value = cartItem.quantity;
+      console.log(cart);
     }
   });
+  updateTotalCost();
 }
+
+updateTotalCost();
+function updateTotalCost() {
+  let totalCost = 0;
+  cart.forEach((cartItem) => {
+    const { cost } = cartItem;
+    totalCost += cost;
+  });
+  document.querySelector(
+    ".cartpage__sum"
+  ).innerHTML = `Сумма вашего заказа: ${totalCost} ₽`;
+  return totalCost;
+}
+console.log(updateTotalCost());
+
+document.querySelectorAll(".btn-minus").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const { productId } = btn.dataset;
+    console.log(productId);
+  });
+});
