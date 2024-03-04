@@ -4,6 +4,11 @@ import { additonalprod } from "../data/cartpagedata/addtional.js";
 import { recprod } from "../data/cartpagedata/recprod.js";
 function updatePage() {
   let cartpageHTML = "";
+  let recCart = JSON.parse(localStorage.getItem("recCart"));
+  if (!recCart) {
+    recCart = [];
+  }
+  let addCart = [];
   cart.forEach((cartItem) => {
     let matchProd;
     const { productId } = cartItem;
@@ -78,7 +83,7 @@ function updatePage() {
                       <input
                         class="counter__input  data-product-id-${recprod.id}"
                         type="text"
-                        value="0"
+                        value="${recprod.quantity}"
                         readonly
                       />
                       <button class="btn-plus btn-plus-rec"  data-products-id="${recprod.id}">+</button>
@@ -105,7 +110,7 @@ function updatePage() {
                       <input
                         class="counter__input data-product-id-${addItem.id}"
                         type="text"
-                        value="0"
+                        value="${addItem.quantity}"
                         readonly
                       />
                       <button class="btn-plus btn-plus-add"  data-productes-id="${addItem.id}" >+</button>
@@ -115,8 +120,79 @@ function updatePage() {
     `;
     document.querySelector(".additional__list").innerHTML = additonalProd;
   });
+  document.querySelectorAll(".btn-plus-incr").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const { productId } = btn.dataset;
+      cart.forEach((cartItem) => {
+        if (cartItem.productId === productId) {
+          cartItem.quantity += 1;
+          console.log(cartItem);
+        }
+      });
+      saveToLocal();
+      updatePage();
+    });
+  });
+  let totalSum = 0;
+  function clacTotal() {
+    cart.forEach((cartItem) => {
+      totalSum += cartItem.cost * cartItem.quantity;
+    });
+    return totalSum;
+  }
 
- 
-  
+  document.querySelectorAll(".btn-plus-rec").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const { productsId } = btn.dataset;
+      recprod.forEach((recprodItem) => {
+        if (productsId === recprodItem.id) {
+          recprodItem.quantity += 1;
+        }
+        if (recprodItem.quantity >= 1) {
+          recCart.push({
+            quantity: recprodItem.quantity,
+            cost: recprodItem.cost,
+            id: recprodItem.id,
+          });
+        }
+      });
+      saveLocalRec();
+      updatePage();
+    });
+  });
+
+  document.querySelectorAll(".btn-plus-add").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const { productesId } = btn.dataset;
+      additonalprod.forEach((addItem) => {
+        if (productesId === addItem.id) {
+          addItem.quantity += 1;
+        }
+        if (addItem.quantity >= 1) {
+          addCart.push({
+            quantity: addItem.quantity,
+            cost: addItem.cost,
+            id: addItem.id,
+          });
+        }
+      });
+      console.log(addCart);
+      saveLocalAdd();
+      updatePage();
+    });
+  });
+
+  clacTotal();
+
+  document.querySelector(
+    ".cartpage__sum"
+  ).innerHTML = `Сумма вашего заказа: ${totalSum} ₽`;
+
+  function saveLocalRec() {
+    localStorage.setItem("reccart", JSON.stringify(recCart));
+  }
+  function saveLocalAdd() {
+    localStorage.setItem("addCart", JSON.stringify(addCart));
+  }
 }
 updatePage();

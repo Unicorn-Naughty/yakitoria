@@ -23,7 +23,6 @@ export function addTocart(productId) {
   });
   if (matchingProd) {
     matchingProd.quantity += 1;
-    matchingProd.cost += matchProd.cost;
   } else {
     cart.push({
       productId,
@@ -40,7 +39,7 @@ export function updateCarQuanity() {
 
   cart.forEach((cartItem) => {
     cartQuantity = Number(cartQuantity) + cartItem.quantity;
-    cartSummary = Number(cartSummary) + cartItem.cost;
+    cartSummary = Number(cartSummary) + cartItem.quantity * cartItem.cost;
   });
   if (cartQuantity === "") {
     document.querySelector(".user-nav__cart-quanity").innerHTML = ``;
