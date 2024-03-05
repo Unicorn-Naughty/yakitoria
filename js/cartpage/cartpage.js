@@ -4,11 +4,15 @@ import { additonalprod } from "../data/cartpagedata/addtional.js";
 import { recprod } from "../data/cartpagedata/recprod.js";
 function updatePage() {
   let cartpageHTML = "";
-  let recCart = JSON.parse(localStorage.getItem("recCart"));
+  let recCart = JSON.parse(localStorage.getItem("reccart"));
   if (!recCart) {
     recCart = [];
   }
-  let addCart = [];
+
+  let addCart = JSON.parse(localStorage.getItem("addCart"));
+  if (!addCart) {
+    addCart = [];
+  }
   cart.forEach((cartItem) => {
     let matchProd;
     const { productId } = cartItem;
@@ -31,7 +35,7 @@ function updatePage() {
                   </div>
   
                   <div class="counter">
-                    <button class="btn-minus" data-product-id="${
+                    <button class="btn-minus btn-minus-incr" data-product-id="${
                       matchProd.id
                     }" >-</button>
                     <input
@@ -79,9 +83,9 @@ function updatePage() {
                       ${recprod.name}
                     </p>
                     <div class="counter">
-                      <button class="btn-minus" data-product-id="${recprod.id}">-</button>
+                      <button class="btn-minus btn-minus-rec"  data-products-id="${recprod.id}">-</button>
                       <input
-                        class="counter__input  data-product-id-${recprod.id}"
+                        class="counter__input  counter__input-rec data-product-id-${recprod.id}"
                         type="text"
                         value="${recprod.quantity}"
                         readonly
@@ -106,7 +110,7 @@ function updatePage() {
                     />
                     <p class="additional__item-text">${addItem.name}</p>
                     <div class="counter">
-                      <button class="btn-minus" data-product-id="${addItem.id}"  >-</button>
+                      <button class="btn-minus btn-minus-add" data-productes-id="${addItem.id}"  >-</button>
                       <input
                         class="counter__input data-product-id-${addItem.id}"
                         type="text"
@@ -119,6 +123,22 @@ function updatePage() {
                   </li>
     `;
     document.querySelector(".additional__list").innerHTML = additonalProd;
+  });
+  document.querySelectorAll(".btn-minus-incr").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const { productId } = btn.dataset;
+      cart.forEach((cartItem) => {
+        if (cartItem.productId === productId) {
+          if (cartItem.quantity === 1) {
+            return;
+          } else {
+            cartItem.quantity -= 1;
+          }
+        }
+      });
+      saveToLocal();
+      updatePage();
+    });
   });
   document.querySelectorAll(".btn-plus-incr").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -133,6 +153,7 @@ function updatePage() {
       updatePage();
     });
   });
+
   let totalSum = 0;
   function clacTotal() {
     cart.forEach((cartItem) => {
@@ -140,19 +161,50 @@ function updatePage() {
     });
     return totalSum;
   }
+  clacTotal();
+  let recSum = 0;
+  function calcRec() {
+    recCart.forEach((recItem) => {
+      recSum += recItem.cost * recItem.quantity;
+    });
+    return recSum;
+  }
+  calcRec();
+
+  let tt = totalSum + recSum;
+  console.log(tt);
+  document.querySelectorAll(".btn-minus-rec").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const { productsId } = btn.dataset;
+      recCart.forEach((recEl) => {
+        if (recEl.productsId === productsId) {
+          if (recEl.quantity === 0) {
+            return;
+          } else {
+            recEl.quantity -= 1;
+            recprod.forEach((recItem) => {
+              if (recItem.id === productsId) {
+                recItem.quantity = recEl.quantity;
+              }
+            });
+          }
+        }
+      });
+      saveLocalRec();
+      updatePage();
+    });
+  });
 
   document.querySelectorAll(".btn-plus-rec").forEach((btn) => {
     btn.addEventListener("click", () => {
       const { productsId } = btn.dataset;
-      recprod.forEach((recprodItem) => {
-        if (productsId === recprodItem.id) {
-          recprodItem.quantity += 1;
-        }
-        if (recprodItem.quantity >= 1) {
-          recCart.push({
-            quantity: recprodItem.quantity,
-            cost: recprodItem.cost,
-            id: recprodItem.id,
+      addCartRec(productsId);
+      recCart.forEach((recEl) => {
+        if (recEl.productsId === productsId) {
+          recprod.forEach((recItem) => {
+            if (recItem.id === productsId) {
+              recItem.quantity = recEl.quantity;
+            }
           });
         }
       });
@@ -161,22 +213,108 @@ function updatePage() {
     });
   });
 
+  function addCartRec(productsId) {
+    let matchProd;
+    recprod.forEach((recprodItem) => {
+      if (recprodItem.id === productsId) {
+        matchProd = recprodItem;
+      }
+    });
+    let matchItem;
+    recCart.forEach((recItem) => {
+      if (productsId === recItem.productsId) {
+        matchItem = recItem;
+      }
+    });
+    if (matchItem) {
+      matchItem.quantity += 1;
+    } else {
+      {
+        recCart.push({
+          productsId,
+          cost: matchProd.cost,
+          quantity: 1,
+        });
+      }
+    }
+  }
+  function minCartAdd(productesId) {
+    let matchProd;
+    additonalprod.forEach((addItem) => {
+      if (addItem.id === productesId) {
+        matchProd = addItem;
+      }
+    });
+    let matchItem;
+    addCart.forEach((addItem) => {
+      if (productesId === addItem.productesId) {
+        matchItem = addItem;
+      }
+    });
+    if (matchItem) {
+      if (matchItem.quantity === 0) {
+        return;
+      } else {
+        matchItem.quantity -= 1;
+      }
+    }
+  }
+  function addCartAdd(productesId) {
+    let matchProd;
+    additonalprod.forEach((addItem) => {
+      if (addItem.id === productesId) {
+        matchProd = addItem;
+      }
+    });
+    let matchItem;
+    addCart.forEach((addItem) => {
+      if (productesId === addItem.productesId) {
+        matchItem = addItem;
+      }
+    });
+    if (matchItem) {
+      matchItem.quantity += 1;
+    } else {
+      {
+        addCart.push({
+          productesId,
+          cost: matchProd.cost,
+          quantity: 1,
+        });
+      }
+    }
+  }
+  document.querySelectorAll(".btn-minus-add").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const { productesId } = btn.dataset;
+      minCartAdd(productesId);
+      addCart.forEach((el) => {
+        if (el.id === productesId) {
+          if (el.quantity === 0) {
+            return;
+          } else {
+            el.quantity -= 1;
+            additonalprod.forEach((addItem) => {
+              if (addItem.id === productesId) {
+                addItem.quantity = el.quantity;
+              }
+            });
+          }
+        }
+      });
+      saveLocalAdd();
+      updatePage();
+    });
+  });
   document.querySelectorAll(".btn-plus-add").forEach((btn) => {
     btn.addEventListener("click", () => {
       const { productesId } = btn.dataset;
-      additonalprod.forEach((addItem) => {
-        if (productesId === addItem.id) {
-          addItem.quantity += 1;
-        }
-        if (addItem.quantity >= 1) {
-          addCart.push({
-            quantity: addItem.quantity,
-            cost: addItem.cost,
-            id: addItem.id,
-          });
+      addCartAdd(productesId);
+      additonalprod.forEach((el) => {
+        if (el.id === productesId) {
+          el.quantity += 1;
         }
       });
-      console.log(addCart);
       saveLocalAdd();
       updatePage();
     });
@@ -186,7 +324,7 @@ function updatePage() {
 
   document.querySelector(
     ".cartpage__sum"
-  ).innerHTML = `Сумма вашего заказа: ${totalSum} ₽`;
+  ).innerHTML = `Сумма вашего заказа: ${tt} ₽`;
 
   function saveLocalRec() {
     localStorage.setItem("reccart", JSON.stringify(recCart));
@@ -194,5 +332,9 @@ function updatePage() {
   function saveLocalAdd() {
     localStorage.setItem("addCart", JSON.stringify(addCart));
   }
+  function resetRecCart() {
+    recCart = [];
+  }
 }
+
 updatePage();

@@ -1,4 +1,6 @@
 import { sliderArr } from "../data/blogpagedata/sliderdata.js";
+import { cart } from "../data/cart.js";
+import { updateCarQuanity } from "../data/cart.js";
 let sliderHTML = "";
 sliderArr.forEach((sliderItem) => {
   sliderHTML += `
@@ -70,3 +72,4 @@ tabsBtn.forEach((btn) => {
     nextSlide.classList.add("tabs__item--show");
   });
 });
+updateCarQuanity();

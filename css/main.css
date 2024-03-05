@@ -7,8 +7,11 @@ body {
   display: flex;
   flex-direction: column;
   font-family: "Exo 2", sans-serif;
+  position: relative;
 
 }
+
+
 
 .main {
   flex-grow: 1;
@@ -19,9 +22,11 @@ body {
   margin: 0 auto;
   padding: 0 10px;
 }
-.header__wrapper{
+
+.header__wrapper {
   margin-bottom: 15px;
 }
+
 .header__wrapper-top {
   display: flex;
   align-items: end;
@@ -39,9 +44,47 @@ body {
   display: block;
 }
 
+.arrow {
+  position: fixed;
+  right: 25px;
+  color: #f01b34;
+  width: 50px;
+  height: 50px;
+  font-size: 60px;
+  border: 1px dashed #f01b34;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  padding-top: 7px;
+  justify-content: center;
+  cursor: pointer;
+  background-color: transparent;
+  transition: all .3s;
+  opacity: 0;
+}
+
+.arrow:hover {
+  background-color: #f01b34;
+  color: #fff;
+  font-weight: 500;
+}
+
 .header__wrapper-bot {
   display: flex;
-  justify-content: space-between;
+
+  justify-content: center;
+}
+
+.header__wrapper-bot--scroll {
+  position: fixed;
+  width: 100%;
+  background-color: #fff;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 70px;
+  align-items: center;
+  z-index: 999;
 }
 
 .header__menu-list {
@@ -53,6 +96,7 @@ body {
 }
 
 .user-nav {
+  margin-left: 20px;
   display: flex;
   align-items: center;
 }
@@ -60,53 +104,67 @@ body {
 .user-nav__cart-info {
   margin-right: 5px;
 }
-.main__title{
+
+.main__title {
   margin-bottom: 50px;
 }
+
 .main__items {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
-.footer{
+
+.footer {
   padding: 95px 0px 50px;
 }
-.footer__inner-list{
+
+.footer__inner-list {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
-.footer__inner-phone{
+
+.footer__inner-phone {
   display: block;
   margin-bottom: 15px;
 }
-.footer__inner-item:first-child{
+
+.footer__inner-item:first-child {
   width: 285px;
 }
-.footer__page-links{
+
+.footer__page-links {
   display: block;
 }
-.footer__inner-text{
+
+.footer__inner-text {
   margin-bottom: 15px;
 }
-.footer__inner-applinks{
+
+.footer__inner-applinks {
   display: flex;
   align-items: center;
 }
-.footer__inner-app + .footer__inner-app{
+
+.footer__inner-app+.footer__inner-app {
   margin-left: 20px;
 }
-.footer__page-links{
+
+.footer__page-links {
   margin-bottom: 15px;
 }
-.footer__info{
+
+.footer__info {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.footer__info-text{
+
+.footer__info-text {
   display: flex;
   flex-direction: column-reverse;
   margin-bottom: 15px;
 }
-.footer__info-soclink{
+
+.footer__info-soclink {
   margin-bottom: 25px;
 }
