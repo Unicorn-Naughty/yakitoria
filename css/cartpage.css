@@ -255,6 +255,11 @@
   display: inline-block;
 }
 
+.get-order {
+  display: flex;
+align-items: center;
+}
+
 .get-order-next-page:hover {
   background-color: rgba(153, 27, 41, 0.816)
 }
@@ -270,10 +275,35 @@
   margin-right: 10px;
 
 }
-
+.pormo__form{
+  display: none;
+}
 .promo:hover {
   border: none;
 }
+
+
+.promo__btn {
+  font-size: 15px;
+  padding: 12.2px 25px;
+  margin-right: 15px;
+  border-radius: 0px 50px 50px 0px
+}
+
+.promo__input {
+  
+  border: none;
+  transition: all .3s;
+  display: inline-block;
+  font-size: 15px;
+ outline: none;
+  width: 129px;
+  height: 42px;
+  margin-right: -3px;
+  border-radius: 50px 0px 0px 50px ;
+  padding-left: 15px;
+}
+
 
 .back-to-menu {
   padding: 12px 30px;
@@ -331,6 +361,7 @@
   background-color: #f01b34;
   color: #fff;
 }
-.breadcrumbs__item--active .breadcrumbs__item-text{
+
+.breadcrumbs__item--active .breadcrumbs__item-text {
   color: #000;
 }
