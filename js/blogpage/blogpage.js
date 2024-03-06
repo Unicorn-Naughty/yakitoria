@@ -73,3 +73,22 @@ tabsBtn.forEach((btn) => {
   });
 });
 updateCarQuanity();
+let arr = document.querySelector(".arrow");
+window.addEventListener("scroll", function () {
+  const scrollPosition = window.scrollY;
+  let x = document.querySelector(".header__wrapper-bot");
+
+  if (scrollPosition > 120) {
+    x.classList.add("header__wrapper-bot--scroll");
+  } else {
+    x.classList.remove("header__wrapper-bot--scroll");
+  }
+  if (scrollPosition >= 750) {
+    arr.style.opacity = 1;
+  } else {
+    arr.style.opacity = 0;
+  }
+});
+arr.addEventListener("click", () => {
+  window.scrollTo(0, 0);
+});

@@ -22,7 +22,9 @@ li {
   margin-bottom: 25px;
   font-size: 20px;
 }
-
+li.header__menu-item{
+  margin-bottom: 0px;
+}
 li.tabs__item-item::before {
   color: #f01b34;
 

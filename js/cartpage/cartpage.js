@@ -335,6 +335,12 @@ function updatePage() {
   function resetRecCart() {
     recCart = [];
   }
+  let promBtn = document.querySelector(".promo");
+  promBtn.addEventListener("click", () => {
+    promBtn.style.display = "none";
+    document.querySelector(".pormo__form").style.display = "flex";
+    document.querySelector(".promo__input").focus();
+  });
 }
 
 updatePage();
